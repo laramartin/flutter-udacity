@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 
-class MyRectangle extends StatelessWidget {
+class ListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Material(
         child: Container(
-            color: Colors.greenAccent,
-            height: 400.0,
-            width: 300.0,
-            child: Center(
-              child: Text(
-                'Hello!',
-                style: TextStyle(fontSize: 20.0),),
-            )
+          child: Padding(padding: EdgeInsets.all(16.0),
+            child: InkWell(
+              child: Row(
+                children: <Widget>[
+                  new Padding(padding: EdgeInsets.all(10.0),
+                  child: FlutterLogo()
+                  ),
+                  new Center(
+                    child: Text(" is coming!"),
+                  )
+                ],
+              ),
+            ),
+          ),
         )
     );
   }
@@ -23,8 +29,8 @@ void main() {
 
   runApp(MaterialApp(
     home: Scaffold(
-      appBar: AppBar(title: Text("hot reload!")),
-      body: MyRectangle(),
+      appBar: AppBar(title: Text("List row")),
+      body: ListRow(),
     ),
   ));
 }
