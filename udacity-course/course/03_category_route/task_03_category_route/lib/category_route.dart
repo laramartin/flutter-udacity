@@ -50,7 +50,13 @@ class CategoryRoute extends StatelessWidget {
     final listView = Container();
 
     // TODO: Create an App Bar
-    final appBar = AppBar();
+    final appBar = AppBar(
+      title: new Text(
+        'Unit Converter',
+        style: TextStyle(fontSize: 30.0),
+      ),
+      elevation: 0.0,
+    );
 
     return Scaffold(
       appBar: appBar,
