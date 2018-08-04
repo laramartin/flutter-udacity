@@ -48,11 +48,22 @@ class Category extends StatelessWidget {
   void _navigateToConverter(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => ConverterRoute(
-              units: units,
+      MaterialPageRoute(builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: color,
+            title: Text(
+              name,
+              style: Theme.of(context).textTheme.display1,
             ),
-      ),
+          ),
+          body: ConverterRoute(
+            units: units,
+            name: name,
+            color: color,
+          ),
+        );
+      }),
     );
   }
 
@@ -75,7 +86,6 @@ class Category extends StatelessWidget {
           splashColor: color,
           // We can use either the () => function() or the () { function(); }
           // syntax.
-          // TODO: Update this onTap property to call _navigateToConverter()
           onTap: () {
             _navigateToConverter(context);
           },
