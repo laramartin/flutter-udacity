@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:task_03_category_route/category.dart';
 
 // TODO: Check if we need to import anything
 
@@ -46,10 +47,18 @@ class CategoryRoute extends StatelessWidget {
     // from above. Use a placeholder icon, such as `Icons.cake` for each
     // Category. We'll add custom icons later.
 
+    var categories = List<Category>();
+
+    for (var i = 0; i < _baseColors.length; i++) {
+      categories.add(Category(
+          name: _categoryNames[i],
+          color: _baseColors[i],
+          iconLocation: Icons.cake));
+    }
+
     // TODO: Create a list view of the Categories
     final listView = Container();
 
-    // TODO: Create an App Bar
     final appBar = AppBar(
       title: new Text(
         'Unit Converter',
