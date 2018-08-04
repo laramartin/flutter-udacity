@@ -64,11 +64,13 @@ class CategoryRoute extends StatelessWidget {
         style: TextStyle(fontSize: 30.0),
       ),
       elevation: 0.0,
+      backgroundColor: Colors.green[100],
     );
 
     return Scaffold(
       appBar: appBar,
       body: listView,
+      backgroundColor: Colors.green[100],
     );
   }
 }
