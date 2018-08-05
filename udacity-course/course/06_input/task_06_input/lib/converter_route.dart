@@ -41,6 +41,10 @@ class _ConverterRouteState extends State<ConverterRoute> {
   // TODO: Set some variables, such as for keeping track of the user's input
   // value and units
 
+  var userInput = '';
+
+  String currentUnit;
+
   // TODO: Determine whether you need to override anything, such as initState()
 
   // TODO: Add other helper functions. We've given you one, _format()
@@ -73,11 +77,25 @@ class _ConverterRouteState extends State<ConverterRoute> {
     // TODO: Return the input, arrows, and output widgets, wrapped in
 
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: _padding,
       child: Column(
         children: <Widget>[
           TextField(
-            decoration: InputDecoration(labelText: 'input', border: OutlineInputBorder()),
+            decoration: InputDecoration(
+                labelText: 'input', border: OutlineInputBorder()),
+          ),
+          DropdownButton<String>(
+            value: currentUnit,
+            onChanged: (String newUnit) {
+              setState(() {
+                currentUnit = newUnit;
+              });
+            },
+            items: widget.units.map((Unit unit) {
+              return DropdownMenuItem<String>(
+                child: new Text(unit.name),
+              );
+            }).toList(),
           ),
         ],
       ),
