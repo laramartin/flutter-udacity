@@ -76,27 +76,32 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
     // TODO: Return the input, arrows, and output widgets, wrapped in
 
+    var _dropdownButton = DropdownButtonHideUnderline(
+      child: DropdownButton<String>(
+        value: currentUnit,
+        onChanged: (String newUnit) {
+          setState(() {
+            currentUnit = newUnit;
+          });
+        },
+        items: widget.units.map((Unit unit) {
+          return DropdownMenuItem<String>(
+            child: new Text(unit.name),
+          );
+        }).toList(),
+      ),
+    );
+
     return Padding(
       padding: _padding,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
                 labelText: 'input', border: OutlineInputBorder()),
           ),
-          DropdownButton<String>(
-            value: currentUnit,
-            onChanged: (String newUnit) {
-              setState(() {
-                currentUnit = newUnit;
-              });
-            },
-            items: widget.units.map((Unit unit) {
-              return DropdownMenuItem<String>(
-                child: new Text(unit.name),
-              );
-            }).toList(),
-          ),
+          _dropdownButton,
         ],
       ),
     );
