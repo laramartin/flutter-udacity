@@ -43,9 +43,9 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   var userInput = '';
 
-  String currentUnit;
+  Unit currentUnit;
 
-  List<DropdownMenuItem<String>> _items;
+  List<DropdownMenuItem<Unit>> _items;
 
   // TODO: Determine whether you need to override anything, such as initState()
 
@@ -67,9 +67,10 @@ class _ConverterRouteState extends State<ConverterRoute> {
     return outputNum;
   }
 
-  List<DropdownMenuItem<String>> _createListItems() {
+  List<DropdownMenuItem<Unit>> _createListItems() {
     return widget.units.map((Unit unit) {
-      return DropdownMenuItem<String>(
+      return DropdownMenuItem<Unit>(
+        value: unit,
         child: new Text(unit.name),
       );
     }).toList();
@@ -104,9 +105,9 @@ class _ConverterRouteState extends State<ConverterRoute> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
+            child: DropdownButton<Unit>(
               value: currentUnit,
-              onChanged: (String newUnit) {
+              onChanged: (Unit newUnit) {
                 setState(() {
                   currentUnit = newUnit;
                 });
