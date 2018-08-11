@@ -47,6 +47,8 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   List<DropdownMenuItem<Unit>> _items;
 
+  bool _showValidationError = false;
+
   // TODO: Determine whether you need to override anything, such as initState()
 
   // TODO: Add other helper functions. We've given you one, _format()
@@ -75,7 +77,6 @@ class _ConverterRouteState extends State<ConverterRoute> {
       );
     }).toList();
   }
-
 
   @override
   void initState() {
@@ -126,11 +127,31 @@ class _ConverterRouteState extends State<ConverterRoute> {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-                labelText: 'input', border: OutlineInputBorder()),
+                labelText: 'input',
+                border: OutlineInputBorder(),
+                errorText: _showValidationError ? 'Invalid input' : null),
+            keyboardType: TextInputType.number,
+            onChanged: _updateText,
           ),
           _dropdownButton,
         ],
       ),
     );
+  }
+
+  void _updateText(String input) {
+    setState(() {
+      if (input == null || input.isEmpty) {
+        _showValidationError = false;
+        return;
+      }
+      try {
+        final inputDouble = double.parse(input);
+        _showValidationError = false;
+      } on Exception catch (e) {
+        print('Error: $e');
+        _showValidationError = true;
+      }
+    });
   }
 }
