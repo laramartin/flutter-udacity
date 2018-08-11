@@ -9,7 +9,6 @@ import 'package:task_06_input/unit.dart';
 
 //import 'unit.dart';
 
-
 /// [ConverterRoute] where users can input amounts to convert in one [Unit]
 /// and retrieve the conversion in another [Unit] for a specific [Category].
 ///
@@ -50,6 +49,18 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
     // TODO: Return the input, arrows, and output widgets, wrapped in
 
-    return InputGroupWidget(widget.units);
+    return Column(
+      children: <Widget>[
+        InputGroupWidget(widget.units, "Input"),
+        RotatedBox(
+          quarterTurns: 1,
+          child: Icon(
+            Icons.compare_arrows,
+
+          ),
+        ),
+        InputGroupWidget(widget.units, "Output"),
+      ],
+    );
   }
 }

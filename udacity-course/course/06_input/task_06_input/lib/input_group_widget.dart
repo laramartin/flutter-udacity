@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:task_06_input/unit.dart';
 
-
 const _padding = EdgeInsets.all(16.0);
-
 
 class InputGroupWidget extends StatefulWidget {
   final List<Unit> units;
 
-  InputGroupWidget(this.units);
+  final String title;
+
+  InputGroupWidget(this.units, this.title);
 
   @override
   State<StatefulWidget> createState() => InputGroupWidgetState();
@@ -90,7 +90,7 @@ class InputGroupWidgetState extends State<InputGroupWidget> {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-                labelText: 'input',
+                labelText: widget.title,
                 border: OutlineInputBorder(),
                 errorText: _showValidationError ? 'Invalid input' : null),
             keyboardType: TextInputType.number,
