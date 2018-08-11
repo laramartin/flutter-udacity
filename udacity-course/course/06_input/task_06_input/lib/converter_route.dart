@@ -45,6 +45,8 @@ class _ConverterRouteState extends State<ConverterRoute> {
 
   String currentUnit;
 
+  List<DropdownMenuItem<String>> _items;
+
   // TODO: Determine whether you need to override anything, such as initState()
 
   // TODO: Add other helper functions. We've given you one, _format()
@@ -63,6 +65,21 @@ class _ConverterRouteState extends State<ConverterRoute> {
       return outputNum.substring(0, outputNum.length - 1);
     }
     return outputNum;
+  }
+
+  List<DropdownMenuItem<String>> _createListItems() {
+    return widget.units.map((Unit unit) {
+      return DropdownMenuItem<String>(
+        child: new Text(unit.name),
+      );
+    }).toList();
+  }
+
+
+  @override
+  void initState() {
+    _items = _createListItems();
+    super.initState();
   }
 
   @override
@@ -94,11 +111,7 @@ class _ConverterRouteState extends State<ConverterRoute> {
                   currentUnit = newUnit;
                 });
               },
-              items: widget.units.map((Unit unit) {
-                return DropdownMenuItem<String>(
-                  child: new Text(unit.name),
-                );
-              }).toList(),
+              items: _items,
             ),
           ),
         ),
