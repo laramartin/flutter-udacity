@@ -32,6 +32,7 @@ class _UnitConverterState extends State<UnitConverter> {
   String _convertedValue = '';
   List<DropdownMenuItem> _unitMenuItems;
   bool _showValidationError = false;
+
   // TODO: Pass this into the TextField so that the input value persists
   final _inputKey = GlobalKey(debugLabel: 'inputText');
 
@@ -258,9 +259,20 @@ class _UnitConverterState extends State<UnitConverter> {
 
     // TODO: Use an OrientationBuilder to add a width to the unit converter
     // in landscape mode
-    return Padding(
-      padding: _padding,
-      child: converter,
-    );
+    return OrientationBuilder(builder: (context, orientation) {
+      if (orientation == Orientation.landscape) {
+        return Center(
+          child: Container(
+            width: 450.0,
+            child: converter,
+          ),
+        );
+      } else {
+        return Padding(
+          padding: _padding,
+          child: converter,
+        );
+      }
+    });
   }
 }
