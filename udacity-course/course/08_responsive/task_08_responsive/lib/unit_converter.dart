@@ -33,7 +33,6 @@ class _UnitConverterState extends State<UnitConverter> {
   List<DropdownMenuItem> _unitMenuItems;
   bool _showValidationError = false;
 
-  // TODO: Pass this into the TextField so that the input value persists
   final _inputKey = GlobalKey(debugLabel: 'inputText');
 
   @override
@@ -197,6 +196,7 @@ class _UnitConverterState extends State<UnitConverter> {
           // accepts numbers and calls the onChanged property on update.
           // You can read more about it here: https://flutter.io/text-input
           TextField(
+            key: _inputKey,
             style: Theme.of(context).textTheme.display1,
             decoration: InputDecoration(
               labelStyle: Theme.of(context).textTheme.display1,
