@@ -40,8 +40,16 @@ class _UnitConverterState extends State<UnitConverter> {
     _setDefaults();
   }
 
-  // TODO: _createDropdownMenuItems() and _setDefaults() should also be called
-  // each time the user switches [Categories].
+  //TODO: there must be a nicer way to do this
+  @override
+  void didUpdateWidget(UnitConverter old) {
+    super.didUpdateWidget(old);
+    // We update our [DropdownMenuItem] units when we switch [Categories].
+    if (old.category != widget.category) {
+      _createDropdownMenuItems();
+      _setDefaults();
+    }
+  }
 
   /// Creates fresh list of [DropdownMenuItem] widgets, given a list of [Unit]s.
   void _createDropdownMenuItems() {
