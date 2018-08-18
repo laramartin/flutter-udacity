@@ -247,9 +247,8 @@ class _UnitConverterState extends State<UnitConverter> {
       ),
     );
 
-    // TODO: Use a ListView instead of a Column
-    final converter = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    final converter = ListView(
+      scrollDirection: Axis.vertical,
       children: [
         input,
         arrows,
@@ -257,7 +256,6 @@ class _UnitConverterState extends State<UnitConverter> {
       ],
     );
 
-    // TODO: Use an OrientationBuilder to add a width to the unit converter
     // in landscape mode
     return OrientationBuilder(builder: (context, orientation) {
       if (orientation == Orientation.landscape) {
