@@ -4,16 +4,16 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-// TODO: Import necessary package
+import 'api.dart';
 import 'backdrop.dart';
 import 'category.dart';
 import 'category_tile.dart';
 import 'unit.dart';
 import 'unit_converter.dart';
-import 'api.dart';
 
 /// Loads in unit conversion data, and displays the data.
 ///
@@ -33,6 +33,7 @@ class CategoryRoute extends StatefulWidget {
 class _CategoryRouteState extends State<CategoryRoute> {
   Category _defaultCategory;
   Category _currentCategory;
+
   // Widgets are supposed to be deeply immutable objects. We can update and edit
   // _categories as we build our app, and when we pass it into a widget's
   // `children` property, we call .toList() on it.
@@ -93,7 +94,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     // We only want to load our data in once
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
-      // TODO: Call _retrieveApiCategory() here
       _retrieveApiCategory();
     }
   }
@@ -130,12 +130,26 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
   }
 
-  // TODO: Add the Currency Category retrieved from the API, to our _categories
   /// Retrieves a [Category] and its [Unit]s from an API on the web
 
   final api = Api();
   Future<void> _retrieveApiCategory() async {
-    await api.getUnits("Currency");
+    String categoryName = "Currency";
+    try {
+      var response = await api.getUnits(categoryName);
+      List<Unit> units = response.cast();
+      var category = Category(
+        name: categoryName,
+        units: units,
+        color: _baseColors.last,
+        iconLocation: _icons.last,
+      );
+      setState(() {
+        _categories.add(category);
+      });
+    } catch (e) {
+      log("error retrieving API Category: $e");
+    }
   }
 
   /// Function to call when a [Category] is tapped.
