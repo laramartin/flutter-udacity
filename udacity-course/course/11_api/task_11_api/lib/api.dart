@@ -7,6 +7,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'unit.dart';
+
+
 /// The REST API retrieves unit conversions for [Categories] that change.
 ///
 /// For example, the currency exchange rate, stock prices, the height of the
@@ -28,15 +31,15 @@ class Api {
   final String _url = "https://flutter.udacity.com";
   final HttpClient _httpClient = HttpClient();
 
-  Future<List> getUnits(String category) async {
+  Future<List<Unit>> getUnits(String category) async {
     String path = "/$category".toLowerCase();
     Uri uri = Uri.parse(_url + path);
-    var data;
+    Map<String, dynamic> data;
     try {
       final httpRequest = await _httpClient.getUrl(uri);
       final httpResponse = await httpRequest.close();
       if (httpResponse.statusCode == 200) {
-        var jsonResponse = await httpResponse.transform(utf8.decoder).join();
+        String jsonResponse = await httpResponse.transform(utf8.decoder).join();
 
         // hashMap with key "units" and value list of units
         data = json.decode(jsonResponse);
@@ -48,7 +51,7 @@ class Api {
       log("Error retrieving and parsing json getting units: " + e.toString());
       return null;
     }
-    return data["units"];
+    return data["units"].map<Unit>((dynamic unit) => Unit.fromJson(unit)).toList();
   }
 
   /// Given two units, converts from one to another.

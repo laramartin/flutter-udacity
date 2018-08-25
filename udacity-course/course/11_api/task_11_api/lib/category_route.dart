@@ -94,7 +94,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
     // We only want to load our data in once
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
-      _retrieveApiCategory();
+      await _retrieveApiCategory();
     }
   }
 
@@ -136,8 +136,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
   Future<void> _retrieveApiCategory() async {
     String categoryName = "Currency";
     try {
-      var response = await api.getUnits(categoryName);
-      List<Unit> units = response.cast();
+      List<Unit> units = await api.getUnits(categoryName);
       var category = Category(
         name: categoryName,
         units: units,
