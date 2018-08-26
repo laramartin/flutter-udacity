@@ -36,7 +36,7 @@ class _UnitConverterState extends State<UnitConverter> {
   List<DropdownMenuItem> _unitMenuItems;
   bool _showValidationError = false;
   final _inputKey = GlobalKey(debugLabel: 'inputText');
-  // TODO: Add a flag for whether to show error UI
+  bool showError = false;
 
   @override
   void initState() {
@@ -107,11 +107,18 @@ class _UnitConverterState extends State<UnitConverter> {
     // the Currency [Category]
     if (widget.category.name == apiCategory['name']) {
       final api = Api();
-      final conversion = await api.convert(apiCategory['route'],
-          _inputValue.toString(), _fromValue.name, _toValue.name);
-      // TODO: Check whether to show an error UI
+//      final conversion = await api.convert(apiCategory['route'],
+
+      // simulate conversion error
+      final conversion = null;
+
       setState(() {
-        _convertedValue = _format(conversion);
+        if (conversion == null) {
+          showError = true;
+        } else {
+          _convertedValue = _format(conversion);
+          showError = false;
+        }
       });
     } else {
       // For the static units, we do the conversion ourselves
@@ -203,7 +210,15 @@ class _UnitConverterState extends State<UnitConverter> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Build an error UI
+    final error = Padding(
+      padding: _padding,
+      child: Container(
+        color: Colors.red,
+        child: Text(
+          "There was an error, try again later"
+        ),
+      ),
+    );
 
     final input = Padding(
       padding: _padding,
@@ -280,12 +295,12 @@ class _UnitConverterState extends State<UnitConverter> {
       child: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
           if (orientation == Orientation.portrait) {
-            return converter;
+            return showError? error : converter;
           } else {
             return Center(
               child: Container(
                 width: 450.0,
-                child: converter,
+                child: showError? error : converter,
               ),
             );
           }
