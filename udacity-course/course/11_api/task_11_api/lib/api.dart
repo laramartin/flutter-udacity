@@ -28,12 +28,12 @@ class Api {
   ///
   /// Returns a list. Returns null on error.
 
-  final String _url = "https://flutter.udacity.com";
+  final String _url = "flutter.udacity.com";
   final HttpClient _httpClient = HttpClient();
 
   Future<List<Unit>> getUnits(String category) async {
     String path = "/$category".toLowerCase();
-    Uri uri = Uri.parse(_url + path);
+    Uri uri = Uri.https(_url, path);
     Map<String, dynamic> data;
     try {
       final httpRequest = await _httpClient.getUrl(uri);
@@ -57,32 +57,27 @@ class Api {
   /// Given two units, converts from one to another.
   ///
   /// Returns a double, which is the converted amount. Returns null on error.
-
-// https://flutter.udacity.com/currency/convert?from=US Dollar&to=Gold Bar&amount=500.0
-// this returns {"status":"ok","conversion":0.4022439422705965}
-
-// return the amount
+  ///
+  /// https://flutter.udacity.com/currency/convert?from=US Dollar&to=Gold Bar&amount=500.0
+  /// this returns {"status":"ok","conversion":0.4022439422705965}
   Future<double> convert(
-      String category, String fromUnit, String toUnit, String amount) async {
-    var uri = Uri.http(_url, '/$category/convert',
-        {'amount': amount, 'from': fromUnit, 'to': toUnit});
+      String category, Unit fromUnit, Unit toUnit, double amount) async {
+    var uri = Uri.https(_url, '/$category/convert'.toLowerCase(),
+        {'amount': amount.toString(), 'from': fromUnit.name, 'to': toUnit.name});
     var conversion;
-
+    print(uri.toString());
     try {
       final httpRequest = await _httpClient.getUrl(uri);
       final httpResponse = await httpRequest.close();
       if (httpResponse.statusCode == 200) {
         var jsonResponse = await httpResponse.transform(utf8.decoder).join();
 
-        // hashMap with key "units" and value list of units
         conversion = json.decode(jsonResponse);
-
         print(conversion);
-
       }
-      return conversion;
+      return conversion["conversion"];
     } catch (e) {
-      log("Error fetching parsing conversion: " + e);
+      log("Error fetching parsing conversion: " + e.toString());
       return null;
     }
   }

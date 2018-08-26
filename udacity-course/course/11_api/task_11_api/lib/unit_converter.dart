@@ -2,16 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TODO: Import necessary packages
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import 'api.dart';
 import 'category.dart';
 import 'unit.dart';
 
 const _padding = EdgeInsets.all(16.0);
+final api = Api();
 
 /// [UnitConverter] where users can input amounts to convert in one [Unit]
 /// and retrieve the conversion in another [Unit] for a specific [Category].
@@ -101,12 +100,19 @@ class _UnitConverterState extends State<UnitConverter> {
     return outputNum;
   }
 
-  // TODO: If in the Currency [Category], call the API to retrieve the conversion.
   // Remember, the API call is an async function.
-  void _updateConversion() {
-    setState(() {
-      _convertedValue =
+  void _updateConversion() async {
+    String newConvertedValue = '';
+    if (widget.category.name == "Currency") {
+      double doubleValue = await api.convert(widget.category.name, _fromValue, _toValue, _inputValue);
+      newConvertedValue = doubleValue.toString();
+    } else {
+      newConvertedValue =
           _format(_inputValue * (_toValue.conversion / _fromValue.conversion));
+    }
+
+    setState(() {
+      _convertedValue = newConvertedValue;
     });
   }
 
